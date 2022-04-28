@@ -2,10 +2,42 @@
 import { Layout, Navbar } from 'src/components/Layout'
 import { Table, Thead, Tbody, Tr, Th, Td, chakra } from '@chakra-ui/react'
 import { TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons'
-import { useTable, useSortBy } from 'react-table'
-import { useMemo } from 'react'
+import { useTable, useGlobalFilter, useAsyncDebounce, useSortBy } from 'react-table'
+import { useState, useMemo } from 'react'
+import 'regenerator-runtime/runtime'
 
 const chainjsUrl = 'https://raw.githubusercontent.com/starwalker00/chain-rpc-list/main/data/rpcList.json';
+
+// Define a default UI for filtering
+function GlobalFilter({
+    preGlobalFilteredRows,
+    globalFilter,
+    setGlobalFilter,
+}) {
+    const count = preGlobalFilteredRows.length
+    const [value, setValue] = useState(globalFilter)
+    const onChange = useAsyncDebounce(value => {
+        setGlobalFilter(value || undefined)
+    }, 200)
+
+    return (
+        <span>
+            Search:{' '}
+            <input
+                value={value || ""}
+                onChange={e => {
+                    setValue(e.target.value);
+                    onChange(e.target.value);
+                }}
+                placeholder={`${count} records...`}
+                style={{
+                    fontSize: '1.1rem',
+                    border: '0',
+                }}
+            />
+        </span>
+    )
+}
 
 function List({ rpcs }) {
     // return (
@@ -30,8 +62,17 @@ function List({ rpcs }) {
     )
     const data = useMemo(() => rpcs, [])
 
-    const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-        useTable({ columns, data }, useSortBy)
+    const {
+        getTableProps,
+        getTableBodyProps,
+        headerGroups,
+        rows,
+        prepareRow,
+        state,
+        visibleColumns,
+        preGlobalFilteredRows,
+        setGlobalFilter } =
+        useTable({ columns, data }, useGlobalFilter, useSortBy)
     return (
         <Table {...getTableProps()}>
             <Thead>
@@ -56,6 +97,11 @@ function List({ rpcs }) {
                         ))}
                     </Tr>
                 ))}
+                <GlobalFilter
+                    preGlobalFilteredRows={preGlobalFilteredRows}
+                    globalFilter={state.globalFilter}
+                    setGlobalFilter={setGlobalFilter}
+                />
             </Thead>
             <Tbody {...getTableBodyProps()}>
                 {rows.map((row) => {
