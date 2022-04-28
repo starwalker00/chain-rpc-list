@@ -1,0 +1,26 @@
+[
+    {
+        "networkName": "Evmos Mainnet",
+        "rpcUrl": "https://eth.bd.evmos.org:8545",
+        "chainID": 9001,
+        "currencySymbol": "EVMOS",
+        "blockExplorerUrl": "https://evm.evmos.org",
+        "sourceUrl": "https://docs.evmos.org/users/wallets/metamask.html#adding-a-new-network"
+    },
+    {
+        "networkName": "Evmos Testnet",
+        "rpcUrl": "https://eth.bd.evmos.dev:8545",
+        "chainID": 9000,
+        "currencySymbol": "tEVMOS",
+        "blockExplorerUrl": "https://evm.evmos.dev",
+        "sourceUrl": "https://docs.evmos.org/users/wallets/metamask.html#adding-a-new-network"
+    },
+    {
+        "networkName": "Evmos Local",
+        "rpcUrl": "https://localhost:8545",
+        "chainID": 9000,
+        "currencySymbol": "tEVMOS",
+        "blockExplorerUrl": "",
+        "sourceUrl": "https://docs.evmos.org/users/wallets/metamask.html#adding-a-new-network"
+    }
+]
