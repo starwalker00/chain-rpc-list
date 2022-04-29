@@ -5,49 +5,8 @@ import { Search2Icon, TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons'
 import { useTable, useGlobalFilter, useAsyncDebounce, useExpanded, useSortBy, useFlexLayout } from 'react-table'
 import { useState, useMemo, useCallback } from 'react'
 import 'regenerator-runtime/runtime'
-
+import GlobalFilter from 'src/components/GlobalFilter'
 const chainjsUrl = 'https://raw.githubusercontent.com/starwalker00/chain-rpc-list/main/data/rpcList.json';
-
-// Define a default UI for global filtering
-function GlobalFilter({
-    preGlobalFilteredRows,
-    globalFilter,
-    setGlobalFilter,
-}) {
-    const count = preGlobalFilteredRows.length
-    const [value, setValue] = useState(globalFilter)
-    const onChange = useAsyncDebounce(value => {
-        setGlobalFilter(value || undefined)
-    }, 200)
-    let arr = ["evmos", "mainnet", "a"];
-    return (
-        <Box border="1px solid teal">
-            <InputGroup>
-                <InputLeftElement
-                    pointerEvents='none'
-                    children={<Search2Icon />}
-                />
-                <Input
-                    value={value || ""}
-                    onChange={e => {
-                        setValue(e.target.value);
-                        onChange(e.target.value);
-                    }}
-                    placeholder={`${count} records...`}
-                    style={{
-                        fontSize: '1.1rem',
-                        border: '0',
-                    }}
-                />
-            </InputGroup>
-            <Flex justifyContent="space-evenly" gap={2}>
-                {
-                    arr.map(tag => <Box width={'full'} border="1px solid black" textAlign="center" paddingX={2} paddingY={2}>{tag}</Box>)
-                }
-            </Flex>
-        </Box>
-    )
-}
 
 function List({ rpcs }) {
     // need to get all the columns even if we do not display them all directly,
