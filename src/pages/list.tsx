@@ -6,6 +6,8 @@ import { useTable, useGlobalFilter, useAsyncDebounce, useExpanded, useSortBy, us
 import { useState, useMemo, useCallback } from 'react'
 import 'regenerator-runtime/runtime'
 import GlobalFilter from 'src/components/GlobalFilter'
+import RowSubComponent from 'src/components/RowSubComponent'
+
 const chainjsUrl = 'https://raw.githubusercontent.com/starwalker00/chain-rpc-list/main/data/rpcList.json';
 
 function List({ rpcs }) {
@@ -81,20 +83,11 @@ function List({ rpcs }) {
     )
     const data = useMemo(() => rpcs, [])
 
-    // Create a function that will render our row sub components
+    // function that will render our row sub components
     const renderRowSubComponent = useCallback(
-        ({ row }) => (
-            <pre
-                style={{
-                    fontSize: '10px',
-                }}
-            >
-                <code>{JSON.stringify({ values: row.values }, null, 2)}</code>
-            </pre>
-        ),
+        ({ row }) => (<RowSubComponent row={row} />),
         []
     )
-
 
     const {
         getTableProps,
