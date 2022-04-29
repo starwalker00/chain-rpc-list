@@ -1,8 +1,8 @@
 //@ts-nocheck
 import { Layout, Navbar } from 'src/components/Layout'
-import { Container, Center, Box, Flex, InputGroup, InputLeftElement, Input, Button, TableContainer, Table, Thead, Tbody, Tr, Th, Td, chakra } from '@chakra-ui/react'
+import { Container, Switch, Center, useCheckbox, Checkbox, Box, Flex, InputGroup, InputLeftElement, Input, Button, TableContainer, Table, Thead, Tbody, Tr, Th, Td, chakra } from '@chakra-ui/react'
 import { Search2Icon, TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons'
-import { useTable, useGlobalFilter, useAsyncDebounce, useExpanded, useSortBy, useFlexLayout } from 'react-table'
+import { useTable, useGlobalFilter, useAsyncDebounce, useExpanded, useSortBy, useFlexLayout, useFilters } from 'react-table'
 import { useState, useMemo, useCallback } from 'react'
 import 'regenerator-runtime/runtime'
 import GlobalFilter from 'src/components/GlobalFilter'
@@ -11,6 +11,54 @@ import RowSubComponent from 'src/components/RowSubComponent'
 const chainjsUrl = 'https://raw.githubusercontent.com/starwalker00/chain-rpc-list/main/data/rpcList.json';
 
 function List({ rpcs }) {
+    // Define a default UI for filtering
+    function DefaultColumnFilter({
+        column: { filterValue, preFilteredRows, setFilter },
+    }) {
+        const count = preFilteredRows.length
+
+        return (
+            <input
+                value={filterValue || ''}
+                onChange={e => {
+                    setFilter(e.target.value || undefined) // Set undefined to remove the filter entirely
+                }}
+                placeholder={`Search ${count} records...`}
+            />
+        )
+    }
+    const defaultColumn = useMemo(
+        () => ({
+            // Let's set up our default Filter UI
+            Filter: DefaultColumnFilter,
+        }),
+        []
+    )
+    // This is a custom filter UI for selecting
+    // a unique option from a list
+    function SelectColumnFilter({
+        column: { filterValue, setFilter, preFilteredRows, id },
+    }) {
+        console.log(filterValue)
+        return (
+            <>
+                {/* <Button onClick={() => setFilter(1)}>all</Button>
+                <Button onClick={() => setFilter(0)}>no tests</Button> */}
+                {/* <Button onClick={() => setFilter(0)}>no tests</Button> */}
+                <Checkbox onChange={() => setFilter(!filterValue)}>show testnets</Checkbox>
+            </>
+        )
+    }
+    // Define a custom filter filter function!
+    function filterGreaterThan(rows, id, filterValue) {
+        console.log("filterGreaterThan")
+        console.log(filterValue)
+        return rows.filter(row => {
+            const rowValue = row.values[id]
+            return rowValue <= filterValue
+        })
+    }
+
     // need to get all the columns even if we do not display them all directly,
     // because the data is needed to add to metamask
     const columns = useMemo(
@@ -75,8 +123,10 @@ function List({ rpcs }) {
             {
                 Header: 'isTestnet',
                 accessor: 'isTestnet',
-                isVisible: false,
+                isVisible: true,
                 disableGlobalFilter: true,
+                Filter: SelectColumnFilter,
+                filter: filterGreaterThan,
             }
         ],
         []
@@ -99,10 +149,21 @@ function List({ rpcs }) {
         visibleColumns,
         preGlobalFilteredRows,
         setGlobalFilter } =
-        useTable({
-            columns, data, initialState: { hiddenColumns: columns.filter(column => !column?.isVisible).map(column => column.accessor) }
-        },
-            useGlobalFilter, useSortBy, useFlexLayout, useExpanded);
+        useTable(
+            {
+                columns, data, defaultColumn,
+                initialState: {
+                    hiddenColumns: columns.filter(column => !column?.isVisible).map(column => column.accessor),
+                    filters: [
+                        {
+                            id: 'isTestnet',
+                            value: 0,
+                        },
+                    ],
+                },
+                // manualFilters: true
+            },
+            useGlobalFilter, useFilters, useSortBy, useFlexLayout, useExpanded);
     return (
         <Container maxW='container.xl' centerContent>
             <Box>
@@ -132,6 +193,7 @@ function List({ rpcs }) {
                                                 )
                                             ) : null}
                                         </chakra.span>
+                                        <div>{column.canFilter ? column.render('Filter') : null}</div>
                                     </Th>
                                 ))}
                             </Tr>
