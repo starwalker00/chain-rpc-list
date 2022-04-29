@@ -40,11 +40,13 @@ function GlobalFilter({
 }
 
 function List({ rpcs }) {
+    // need to get all the columns even if we do not display them all directly,
+    // because the data is needed to add to metamask
     const columns = useMemo(
         () => [
             {
-                // Make an expander cell
-                Header: () => null, // No header
+                // Expander cell
+                Header: () => null,
                 id: 'expander',
                 maxWidth: 10,
                 Cell: ({ row }) => (
@@ -59,14 +61,23 @@ function List({ rpcs }) {
                 isVisible: true
             },
             {
-                Header: 'rpcUrl',
-                accessor: 'rpcUrl',
-                isVisible: false
-            },
-            {
                 Header: 'Chain ID',
                 accessor: 'chainID',
                 isVisible: true
+            },
+            {
+                Header: () => null,
+                id: "addToMM",
+                Cell: ({ row }) => (
+                    <Button onClick={() => alert("Adding: \n" + JSON.stringify(row.values))}>
+                        Add to Metamask
+                    </Button>
+                ),
+            },
+            {
+                Header: 'rpcUrl',
+                accessor: 'rpcUrl',
+                isVisible: false
             },
             {
                 Header: 'currencySymbol',
@@ -107,21 +118,6 @@ function List({ rpcs }) {
         []
     )
 
-    // add button at end
-    const tableHooks = (hooks) => {
-        hooks.visibleColumns.push((columns) => [
-            ...columns,
-            {
-                id: "addToMM",
-                Header: () => null, // No header
-                Cell: ({ row }) => (
-                    <Button onClick={() => alert("Adding: \n" + JSON.stringify(row.values))}>
-                        Add to Metamask
-                    </Button>
-                ),
-            },
-        ]);
-    };
 
     const {
         getTableProps,
@@ -136,7 +132,7 @@ function List({ rpcs }) {
         useTable({
             columns, data, initialState: { hiddenColumns: columns.filter(column => !column?.isVisible).map(column => column.accessor) }
         },
-            useGlobalFilter, tableHooks, useSortBy, useFlexLayout, useExpanded);
+            useGlobalFilter, useSortBy, useFlexLayout, useExpanded);
     return (
         <Container maxW='container.xl'>
             <TableContainer>
