@@ -148,7 +148,8 @@ function List({ rpcs }) {
         state,
         visibleColumns,
         preGlobalFilteredRows,
-        setGlobalFilter } =
+        setGlobalFilter,
+        setFilter } =
         useTable(
             {
                 columns, data, defaultColumn,
@@ -173,6 +174,9 @@ function List({ rpcs }) {
                     setGlobalFilter={setGlobalFilter}
                 />
             </Box>
+
+            <Checkbox onChange={(e) => { setFilter('isTestnet', e.target.checked) }}>show testnets</Checkbox>
+
             <TableContainer alignSelf="stretch">
                 <Table {...getTableProps()} variant='striped' colorScheme='teal'>
                     <Thead>
