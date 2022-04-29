@@ -8,9 +8,11 @@ import { useState, useMemo, useCallback } from 'react'
 
 const tags = ["evmos", "mainnet", "a"];
 
-function Tag({ tag }) {
+
+function Tag({ tag, onClick }) {
     return (
         <Box
+            onClick={onClick}
             width={'full'}
             border="1px solid black"
             textAlign="center"
@@ -54,7 +56,15 @@ export default function GlobalFilter({
             {/** Tags */}
             <Flex justifyContent="space-evenly" gap={2}>
                 {
-                    tags.map(tag => <Tag tag={tag} />)
+                    tags.map(tag =>
+                        <Tag
+                            tag={tag}
+                            onClick={() => {
+                                setValue(tag);
+                                onChange(tag);
+                            }}
+                        />
+                    )
                 }
             </Flex>
         </Box>
