@@ -5,7 +5,8 @@
         "chainID": 9001,
         "currencySymbol": "EVMOS",
         "blockExplorerUrl": "https://evm.evmos.org",
-        "sourceUrl": "https://docs.evmos.org/users/wallets/metamask.html#adding-a-new-network"
+        "sourceUrl": "https://docs.evmos.org/users/wallets/metamask.html#adding-a-new-network",
+        "isTestnet": false
     },
     {
         "networkName": "Evmos Testnet",
@@ -13,7 +14,8 @@
         "chainID": 9000,
         "currencySymbol": "tEVMOS",
         "blockExplorerUrl": "https://evm.evmos.dev",
-        "sourceUrl": "https://docs.evmos.org/users/wallets/metamask.html#adding-a-new-network"
+        "sourceUrl": "https://docs.evmos.org/users/wallets/metamask.html#adding-a-new-network",
+        "isTestnet": true
     },
     {
         "networkName": "Evmos Local",
@@ -21,6 +23,7 @@
         "chainID": 9000,
         "currencySymbol": "tEVMOS",
         "blockExplorerUrl": "",
-        "sourceUrl": "https://docs.evmos.org/users/wallets/metamask.html#adding-a-new-network"
+        "sourceUrl": "https://docs.evmos.org/users/wallets/metamask.html#adding-a-new-network",
+        "isTestnet": true
     }
 ]
