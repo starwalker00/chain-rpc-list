@@ -1,6 +1,6 @@
 //@ts-nocheck
 import { Layout, Navbar } from 'src/components/Layout'
-import { Container, Box, Button, TableContainer, Table, Thead, Tbody, Tr, Th, Td, chakra } from '@chakra-ui/react'
+import { Container, Center, Box, Input, Button, TableContainer, Table, Thead, Tbody, Tr, Th, Td, chakra } from '@chakra-ui/react'
 import { TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons'
 import { useTable, useGlobalFilter, useAsyncDebounce, useExpanded, useSortBy, useFlexLayout } from 'react-table'
 import { useState, useMemo, useCallback } from 'react'
@@ -21,9 +21,9 @@ function GlobalFilter({
     }, 200)
 
     return (
-        <span>
+        <Box>
             Search:{' '}
-            <input
+            <Input
                 value={value || ""}
                 onChange={e => {
                     setValue(e.target.value);
@@ -35,7 +35,7 @@ function GlobalFilter({
                     border: '0',
                 }}
             />
-        </span>
+        </Box>
     )
 }
 
@@ -58,12 +58,14 @@ function List({ rpcs }) {
             {
                 Header: 'Network Name',
                 accessor: 'networkName',
-                isVisible: true
+                isVisible: true,
+                disableGlobalFilter: false,
             },
             {
                 Header: 'Chain ID',
                 accessor: 'chainID',
-                isVisible: true
+                isVisible: true,
+                disableGlobalFilter: false,
             },
             {
                 Header: () => null,
@@ -73,31 +75,37 @@ function List({ rpcs }) {
                         Add to Metamask
                     </Button>
                 ),
+                disableGlobalFilter: false,
             },
             {
                 Header: 'rpcUrl',
                 accessor: 'rpcUrl',
-                isVisible: false
+                isVisible: false,
+                disableGlobalFilter: true,
             },
             {
                 Header: 'currencySymbol',
                 accessor: 'currencySymbol',
-                isVisible: false
+                isVisible: false,
+                disableGlobalFilter: true,
             },
             {
                 Header: 'blockExplorerUrl',
                 accessor: 'blockExplorerUrl',
-                isVisible: false
+                isVisible: false,
+                disableGlobalFilter: true,
             },
             {
                 Header: 'sourceUrl',
                 accessor: 'sourceUrl',
-                isVisible: false
+                isVisible: false,
+                disableGlobalFilter: true,
             },
             {
                 Header: 'isTestnet',
                 accessor: 'isTestnet',
-                isVisible: false
+                isVisible: false,
+                disableGlobalFilter: true,
             }
         ],
         []
@@ -135,6 +143,13 @@ function List({ rpcs }) {
             useGlobalFilter, useSortBy, useFlexLayout, useExpanded);
     return (
         <Container maxW='container.xl'>
+            <Center>
+                <GlobalFilter
+                    preGlobalFilteredRows={preGlobalFilteredRows}
+                    globalFilter={state.globalFilter}
+                    setGlobalFilter={setGlobalFilter}
+                />
+            </Center>
             <TableContainer>
                 <Table {...getTableProps()} variant='striped' colorScheme='teal'>
                     <Thead>
@@ -159,11 +174,6 @@ function List({ rpcs }) {
                                 ))}
                             </Tr>
                         ))}
-                        <GlobalFilter
-                            preGlobalFilteredRows={preGlobalFilteredRows}
-                            globalFilter={state.globalFilter}
-                            setGlobalFilter={setGlobalFilter}
-                        />
                     </Thead>
                     <Tbody {...getTableBodyProps()}>
                         {rows.map((row, idx) => {
