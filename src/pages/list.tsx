@@ -19,26 +19,33 @@ function GlobalFilter({
     const onChange = useAsyncDebounce(value => {
         setGlobalFilter(value || undefined)
     }, 200)
-
+    let arr = ["evmos", "mainnet", "a"];
     return (
-        <InputGroup>
-            <InputLeftElement
-                pointerEvents='none'
-                children={<Search2Icon />}
-            />
-            <Input
-                value={value || ""}
-                onChange={e => {
-                    setValue(e.target.value);
-                    onChange(e.target.value);
-                }}
-                placeholder={`${count} records...`}
-                style={{
-                    fontSize: '1.1rem',
-                    border: '0',
-                }}
-            />
-        </InputGroup>
+        <Box border="1px solid teal">
+            <InputGroup>
+                <InputLeftElement
+                    pointerEvents='none'
+                    children={<Search2Icon />}
+                />
+                <Input
+                    value={value || ""}
+                    onChange={e => {
+                        setValue(e.target.value);
+                        onChange(e.target.value);
+                    }}
+                    placeholder={`${count} records...`}
+                    style={{
+                        fontSize: '1.1rem',
+                        border: '0',
+                    }}
+                />
+            </InputGroup>
+            <Flex justifyContent="space-evenly" gap={2}>
+                {
+                    arr.map(tag => <Box width={'full'} border="1px solid black" textAlign="center" paddingX={2} paddingY={2}>{tag}</Box>)
+                }
+            </Flex>
+        </Box>
     )
 }
 
