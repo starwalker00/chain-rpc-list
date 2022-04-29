@@ -2,7 +2,7 @@
 import { Layout, Navbar } from 'src/components/Layout'
 import { Container, Box, Button, TableContainer, Table, Thead, Tbody, Tr, Th, Td, chakra } from '@chakra-ui/react'
 import { TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons'
-import { useTable, useGlobalFilter, useAsyncDebounce, useExpanded, useSortBy } from 'react-table'
+import { useTable, useGlobalFilter, useAsyncDebounce, useExpanded, useSortBy, useFlexLayout } from 'react-table'
 import { useState, useMemo, useCallback } from 'react'
 import 'regenerator-runtime/runtime'
 
@@ -45,12 +45,10 @@ function List({ rpcs }) {
             {
                 // Make an expander cell
                 Header: () => null, // No header
-                id: 'expander', // It needs an 
+                id: 'expander',
+                maxWidth: 10,
                 Cell: ({ row }) => (
-                    // Use Cell to render an expander for each row.
-                    // We can use the getToggleRowExpandedProps prop-getter
-                    // to build the expander.
-                    <chakra.span maxWidth="2px"  {...row.getToggleRowExpandedProps()} >
+                    <chakra.span {...row.getToggleRowExpandedProps()} >
                         {row.isExpanded ? '👇' : '👉'}
                     </chakra.span >
                 ),
@@ -58,10 +56,37 @@ function List({ rpcs }) {
             {
                 Header: 'Network Name',
                 accessor: 'networkName',
+                isVisible: true
+            },
+            {
+                Header: 'rpcUrl',
+                accessor: 'rpcUrl',
+                isVisible: false
             },
             {
                 Header: 'Chain ID',
                 accessor: 'chainID',
+                isVisible: true
+            },
+            {
+                Header: 'currencySymbol',
+                accessor: 'currencySymbol',
+                isVisible: false
+            },
+            {
+                Header: 'blockExplorerUrl',
+                accessor: 'blockExplorerUrl',
+                isVisible: false
+            },
+            {
+                Header: 'sourceUrl',
+                accessor: 'sourceUrl',
+                isVisible: false
+            },
+            {
+                Header: 'isTestnet',
+                accessor: 'isTestnet',
+                isVisible: false
             }
         ],
         []
@@ -108,7 +133,10 @@ function List({ rpcs }) {
         visibleColumns,
         preGlobalFilteredRows,
         setGlobalFilter } =
-        useTable({ columns, data }, useGlobalFilter, tableHooks, useSortBy, useExpanded);
+        useTable({
+            columns, data, initialState: { hiddenColumns: columns.filter(column => !column?.isVisible).map(column => column.accessor) }
+        },
+            useGlobalFilter, tableHooks, useSortBy, useFlexLayout, useExpanded);
     return (
         <Container maxW='container.xl'>
             <TableContainer>
