@@ -11,48 +11,9 @@ import RowSubComponent from 'src/components/RowSubComponent'
 const chainjsUrl = 'https://raw.githubusercontent.com/starwalker00/chain-rpc-list/main/data/rpcList.json';
 
 function List({ rpcs }) {
-    // Define a default UI for filtering
-    function DefaultColumnFilter({
-        column: { filterValue, preFilteredRows, setFilter },
-    }) {
-        const count = preFilteredRows.length
 
-        return (
-            <input
-                value={filterValue || ''}
-                onChange={e => {
-                    setFilter(e.target.value || undefined) // Set undefined to remove the filter entirely
-                }}
-                placeholder={`Search ${count} records...`}
-            />
-        )
-    }
-    const defaultColumn = useMemo(
-        () => ({
-            // Let's set up our default Filter UI
-            Filter: DefaultColumnFilter,
-        }),
-        []
-    )
-    // This is a custom filter UI for selecting
-    // a unique option from a list
-    function SelectColumnFilter({
-        column: { filterValue, setFilter, preFilteredRows, id },
-    }) {
-        console.log(filterValue)
-        return (
-            <>
-                {/* <Button onClick={() => setFilter(1)}>all</Button>
-                <Button onClick={() => setFilter(0)}>no tests</Button> */}
-                {/* <Button onClick={() => setFilter(0)}>no tests</Button> */}
-                <Checkbox onChange={() => setFilter(!filterValue)}>show testnets</Checkbox>
-            </>
-        )
-    }
-    // Define a custom filter filter function!
-    function filterGreaterThan(rows, id, filterValue) {
-        console.log("filterGreaterThan")
-        console.log(filterValue)
+    // custom filter function
+    function filterShowTestnets(rows, id, filterValue) {
         return rows.filter(row => {
             const rowValue = row.values[id]
             return rowValue <= filterValue
@@ -123,10 +84,9 @@ function List({ rpcs }) {
             {
                 Header: 'isTestnet',
                 accessor: 'isTestnet',
-                isVisible: true,
+                isVisible: false,
                 disableGlobalFilter: true,
-                Filter: SelectColumnFilter,
-                filter: filterGreaterThan,
+                filter: filterShowTestnets,
             }
         ],
         []
@@ -152,17 +112,11 @@ function List({ rpcs }) {
         setFilter } =
         useTable(
             {
-                columns, data, defaultColumn,
+                columns, data,
                 initialState: {
                     hiddenColumns: columns.filter(column => !column?.isVisible).map(column => column.accessor),
-                    filters: [
-                        {
-                            id: 'isTestnet',
-                            value: 0,
-                        },
-                    ],
+                    filters: [{ id: 'isTestnet', value: 0 }],
                 },
-                // manualFilters: true
             },
             useGlobalFilter, useFilters, useSortBy, useFlexLayout, useExpanded);
     return (
@@ -197,7 +151,6 @@ function List({ rpcs }) {
                                                 )
                                             ) : null}
                                         </chakra.span>
-                                        <div>{column.canFilter ? column.render('Filter') : null}</div>
                                     </Th>
                                 ))}
                             </Tr>
