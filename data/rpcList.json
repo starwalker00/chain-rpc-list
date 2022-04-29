@@ -6,7 +6,7 @@
         "currencySymbol": "EVMOS",
         "blockExplorerUrl": "https://evm.evmos.org",
         "sourceUrl": "https://docs.evmos.org/users/wallets/metamask.html#adding-a-new-network",
-        "isTestnet": false
+        "isTestnet": 0
     },
     {
         "networkName": "Evmos Testnet",
@@ -15,7 +15,7 @@
         "currencySymbol": "tEVMOS",
         "blockExplorerUrl": "https://evm.evmos.dev",
         "sourceUrl": "https://docs.evmos.org/users/wallets/metamask.html#adding-a-new-network",
-        "isTestnet": true
+        "isTestnet": 1
     },
     {
         "networkName": "Evmos Local",
@@ -24,6 +24,6 @@
         "currencySymbol": "tEVMOS",
         "blockExplorerUrl": "",
         "sourceUrl": "https://docs.evmos.org/users/wallets/metamask.html#adding-a-new-network",
-        "isTestnet": true
+        "isTestnet": 1
     }
 ]
