@@ -1,6 +1,6 @@
 //@ts-nocheck
 import { Layout, Navbar } from 'src/components/Layout'
-import { Container, Box, TableContainer, Table, Thead, Tbody, Tr, Th, Td, chakra } from '@chakra-ui/react'
+import { Container, Box, Button, TableContainer, Table, Thead, Tbody, Tr, Th, Td, chakra } from '@chakra-ui/react'
 import { TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons'
 import { useTable, useGlobalFilter, useAsyncDebounce, useExpanded, useSortBy } from 'react-table'
 import { useState, useMemo, useCallback } from 'react'
@@ -82,6 +82,22 @@ function List({ rpcs }) {
         []
     )
 
+    // add button at end
+    const tableHooks = (hooks) => {
+        hooks.visibleColumns.push((columns) => [
+            ...columns,
+            {
+                id: "addToMM",
+                Header: () => null, // No header
+                Cell: ({ row }) => (
+                    <Button onClick={() => alert("Adding: \n" + JSON.stringify(row.values))}>
+                        Add to Metamask
+                    </Button>
+                ),
+            },
+        ]);
+    };
+
     const {
         getTableProps,
         getTableBodyProps,
@@ -92,7 +108,7 @@ function List({ rpcs }) {
         visibleColumns,
         preGlobalFilteredRows,
         setGlobalFilter } =
-        useTable({ columns, data }, useGlobalFilter, useSortBy, useExpanded);
+        useTable({ columns, data }, useGlobalFilter, tableHooks, useSortBy, useExpanded);
     return (
         <Container maxW='container.xl'>
             <TableContainer>
