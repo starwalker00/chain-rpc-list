@@ -58,6 +58,7 @@ export default function GlobalFilter({
             <InputGroup>
                 <InputLeftElement
                     pointerEvents='none'
+                    // eslint-disable-next-line react/no-children-prop
                     children={<Search2Icon />}
                 />
                 <Input
@@ -83,6 +84,7 @@ export default function GlobalFilter({
                         transform: 'scale(0.98)',
                     }}
                     cursor='pointer'
+                    // eslint-disable-next-line react/no-children-prop
                     children={<CloseIcon w={3} h={3} />}
                 />
             </InputGroup>
@@ -91,6 +93,7 @@ export default function GlobalFilter({
                 {
                     tags.map(tag =>
                         <Tag
+                            key={tag}
                             tag={tag}
                             onClick={() => {
                                 setValue(tag);

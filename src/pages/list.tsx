@@ -91,7 +91,7 @@ function List({ rpcs }) {
         ],
         []
     )
-    const data = useMemo(() => rpcs, [])
+    const data = useMemo(() => rpcs, [rpcs])
 
     // function that will render our row sub components
     const renderRowSubComponent = useCallback(
@@ -134,10 +134,10 @@ function List({ rpcs }) {
             <TableContainer alignSelf="stretch">
                 <Table {...getTableProps()} variant='striped' colorScheme='teal'>
                     <Thead>
-                        {headerGroups.map((headerGroup) => (
-                            <Tr {...headerGroup.getHeaderGroupProps()}>
+                        {headerGroups.map((headerGroup, index) => (
+                            <Tr key={index} {...headerGroup.getHeaderGroupProps()}>
                                 {headerGroup.headers.map((column) => (
-                                    <Th
+                                    <Th key={column.id}
                                         {...column.getHeaderProps(column.getSortByToggleProps())}
                                         isNumeric={column.isNumeric}
                                     >
@@ -162,8 +162,8 @@ function List({ rpcs }) {
                             return (
                                 <>
                                     <Tr {...row.getRowProps()}>
-                                        {row.cells.map((cell) => (
-                                            <Td {...cell.getCellProps()} isNumeric={cell.column.isNumeric}>
+                                        {row.cells.map((cell, index) => (
+                                            <Td key={index} {...cell.getCellProps()} isNumeric={cell.column.isNumeric}>
                                                 {cell.render('Cell')}
                                             </Td>
                                         ))}
