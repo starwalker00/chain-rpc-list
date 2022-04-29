@@ -1,7 +1,7 @@
 //@ts-nocheck
 import { Layout, Navbar } from 'src/components/Layout'
-import { Container, Center, Box, Input, Button, TableContainer, Table, Thead, Tbody, Tr, Th, Td, chakra } from '@chakra-ui/react'
-import { TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons'
+import { Container, Center, Box, Flex, InputGroup, InputLeftElement, Input, Button, TableContainer, Table, Thead, Tbody, Tr, Th, Td, chakra } from '@chakra-ui/react'
+import { Search2Icon, TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons'
 import { useTable, useGlobalFilter, useAsyncDebounce, useExpanded, useSortBy, useFlexLayout } from 'react-table'
 import { useState, useMemo, useCallback } from 'react'
 import 'regenerator-runtime/runtime'
@@ -21,8 +21,11 @@ function GlobalFilter({
     }, 200)
 
     return (
-        <Box>
-            Search:{' '}
+        <InputGroup>
+            <InputLeftElement
+                pointerEvents='none'
+                children={<Search2Icon />}
+            />
             <Input
                 value={value || ""}
                 onChange={e => {
@@ -35,7 +38,7 @@ function GlobalFilter({
                     border: '0',
                 }}
             />
-        </Box>
+        </InputGroup>
     )
 }
 
@@ -142,15 +145,15 @@ function List({ rpcs }) {
         },
             useGlobalFilter, useSortBy, useFlexLayout, useExpanded);
     return (
-        <Container maxW='container.xl'>
-            <Center>
+        <Container maxW='container.xl' centerContent>
+            <Box>
                 <GlobalFilter
                     preGlobalFilteredRows={preGlobalFilteredRows}
                     globalFilter={state.globalFilter}
                     setGlobalFilter={setGlobalFilter}
                 />
-            </Center>
-            <TableContainer>
+            </Box>
+            <TableContainer alignSelf="stretch">
                 <Table {...getTableProps()} variant='striped' colorScheme='teal'>
                     <Thead>
                         {headerGroups.map((headerGroup) => (
