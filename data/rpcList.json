@@ -1,6 +1,6 @@
 [
     {
-        "chainName": "Avalanche Mainnet",
+        "chainName": "Avalanche C-Chain",
         "rpcUrls": [
             "https://api.avax.network/ext/bc/C/rpc"
         ],
@@ -9,6 +9,9 @@
             "symbol": "AVAX",
             "decimals": 18
         },
+        "blockExplorerUrls": [
+            "https://snowtrace.io"
+        ],
         "chainId": 43114,
         "isTestnet": 0
     },
@@ -23,7 +26,6 @@
             "symbol": "EVMOS",
             "decimals": 18
         },
-        "currencySymbol": "EVMOS",
         "blockExplorerUrls": [
             "https://evm.evmos.org"
         ],
