@@ -7,7 +7,8 @@ import { useState, useMemo, useCallback } from 'react'
 import 'regenerator-runtime/runtime'
 import GlobalFilter from 'src/components/GlobalFilter'
 import RowSubComponent from 'src/components/RowSubComponent'
-
+import { addToMetamask } from 'src/lib/helper'
+import { unflattenObject } from 'src/lib/helper'
 const chainjsUrl = 'https://raw.githubusercontent.com/starwalker00/chain-rpc-list/main/data/rpcList.json';
 
 function List({ rpcs }) {
@@ -51,9 +52,14 @@ function List({ rpcs }) {
                 Header: () => null,
                 id: "addToMM",
                 Cell: ({ row }) => (
-                    <Button onClick={() => alert("Adding: \n" + JSON.stringify(row.values))}>
-                        Add to Metamask
-                    </Button>
+                    <>
+                        <Button onClick={() => addToMetamask(unflattenObject(row.values))}>
+                            Add to Metamask
+                        </Button>
+                        <Button onClick={() => alert("Adding: \n" + JSON.stringify(row.values))}>
+                            Alert
+                        </Button>
+                    </>
                 ),
                 disableGlobalFilter: false,
             },
