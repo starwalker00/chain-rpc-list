@@ -1,28 +1,53 @@
 [
     {
-        "networkName": "Evmos Mainnet",
-        "rpcUrl": "https://eth.bd.evmos.org:8545",
-        "chainID": 9001,
+        "chainName": "Evmos Mainnet",
+        "rpcUrls": [
+            "https://eth.bd.evmos.org:8545"
+        ],
+        "chainId": 9001,
+        "nativeCurrency": {
+            "name": "EVMOS",
+            "symbol": "EVMOS",
+            "decimals": 18
+        },
         "currencySymbol": "EVMOS",
-        "blockExplorerUrl": "https://evm.evmos.org",
+        "blockExplorerUrls": [
+            "https://evm.evmos.org"
+        ],
         "sourceUrl": "https://docs.evmos.org/users/wallets/metamask.html#adding-a-new-network",
         "isTestnet": 0
     },
     {
-        "networkName": "Evmos Testnet",
-        "rpcUrl": "https://eth.bd.evmos.dev:8545",
-        "chainID": 9000,
-        "currencySymbol": "tEVMOS",
-        "blockExplorerUrl": "https://evm.evmos.dev",
+        "chainName": "Evmos Testnet",
+        "rpcUrls": [
+            "https://eth.bd.evmos.dev:8545"
+        ],
+        "chainId": 9000,
+        "nativeCurrency": {
+            "name": "tEVMOS",
+            "symbol": "tEVMOS",
+            "decimals": 18
+        },
+        "blockExplorerUrls": [
+            "https://evm.evmos.dev"
+        ],
         "sourceUrl": "https://docs.evmos.org/users/wallets/metamask.html#adding-a-new-network",
         "isTestnet": 1
     },
     {
-        "networkName": "Evmos Local",
-        "rpcUrl": "https://localhost:8545",
-        "chainID": 9000,
-        "currencySymbol": "tEVMOS",
-        "blockExplorerUrl": "",
+        "chainName": "Evmos Local",
+        "rpcUrls": [
+            "https://localhost:8545"
+        ],
+        "chainId": 9000,
+        "nativeCurrency": {
+            "name": "tEVMOS",
+            "symbol": "tEVMOS",
+            "decimals": 18
+        },
+        "blockExplorerUrls": [
+            ""
+        ],
         "sourceUrl": "https://docs.evmos.org/users/wallets/metamask.html#adding-a-new-network",
         "isTestnet": 1
     }
