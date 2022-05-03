@@ -1,14 +1,14 @@
 //@ts-nocheck
 import { Layout, Navbar } from 'src/components/Layout'
 import { Container, Switch, Center, useCheckbox, Checkbox, Box, Flex, InputGroup, InputLeftElement, Input, Button, TableContainer, Table, Thead, Tbody, Tr, Th, Td, chakra } from '@chakra-ui/react'
-import { Search2Icon, TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons'
+import { TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons'
 import { useTable, useGlobalFilter, useAsyncDebounce, useExpanded, useSortBy, useFlexLayout, useFilters } from 'react-table'
-import { useState, useMemo, useCallback } from 'react'
+import { useState, useEffect, useMemo, useCallback } from 'react'
 import 'regenerator-runtime/runtime'
 import GlobalFilter from 'src/components/GlobalFilter'
 import RowSubComponent from 'src/components/RowSubComponent'
-import { addToMetamask } from 'src/lib/helper'
 import { unflattenObject } from 'src/lib/helper'
+import AddToMetamaskButton from 'src/components/AddToMetamaskButton'
 const chainjsUrl = 'https://raw.githubusercontent.com/starwalker00/chain-rpc-list/main/data/rpcList.json';
 
 function List({ rpcs }) {
@@ -53,9 +53,9 @@ function List({ rpcs }) {
                 id: "addToMM",
                 Cell: ({ row }) => (
                     <>
-                        <Button onClick={() => addToMetamask(unflattenObject(row.values))}>
-                            Add to Metamask
-                        </Button>
+                        <AddToMetamaskButton
+                            chainParameter={unflattenObject(row.values)} /*flattened by react-table*/
+                        />
                         <Button onClick={() => alert("Adding: \n" + JSON.stringify(row.values))}>
                             Alert
                         </Button>
