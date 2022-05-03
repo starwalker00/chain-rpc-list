@@ -22,16 +22,6 @@ export default function AddToMetamaskButton({ chainParameter }: any) {
             params: [params],
         })
     };
-    const myFunction = () => {
-        return new Promise((resolve, reject) => {
-            setTimeout(() => {
-                const rnd = Math.random() * 10;
-                rnd <= 5
-                    ? resolve("Submitted successfully 🙌")
-                    : reject("Oh no there was an error 😞");
-            }, 2000);
-        });
-    };
 
     const [hasBrowserWallet, set_hasBrowserWallet] = useState(false);
     const [isLoading, set_isLoading] = useState(true);
