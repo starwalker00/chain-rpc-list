@@ -1,9 +1,17 @@
-import { useState, useEffect, useCallback } from 'react';
+// manages state execution of async function 
+// from https://usehooks.com/useAsync/
 
-export const useAsync = (asyncFunction, immediate = true) => {
-    const [status, setStatus] = useState("idle");
-    const [value, setValue] = useState(null);
-    const [error, setError] = useState(null);
+import { useState, useCallback, useEffect } from "react";
+
+export const useAsync = <T, E = string>(
+    asyncFunction: () => Promise<T>,
+    immediate = true
+) => {
+    const [status, setStatus] = useState<
+        "idle" | "pending" | "success" | "error"
+    >("idle");
+    const [value, setValue] = useState<T | null>(null);
+    const [error, setError] = useState<E | null>(null);
 
     // The execute function wraps asyncFunction and
     // handles setting state for pending, value, and error.
@@ -15,11 +23,11 @@ export const useAsync = (asyncFunction, immediate = true) => {
         setError(null);
 
         return asyncFunction()
-            .then((response) => {
+            .then((response: any) => {
                 setValue(response);
                 setStatus("success");
             })
-            .catch((error) => {
+            .catch((error: any) => {
                 setError(error);
                 setStatus("error");
             });

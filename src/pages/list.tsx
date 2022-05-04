@@ -9,6 +9,7 @@ import GlobalFilter from 'src/components/GlobalFilter'
 import RowSubComponent from 'src/components/RowSubComponent'
 import { unflattenObject } from 'src/lib/helper'
 import AddToMetamaskButton from 'src/components/AddToMetamaskButton'
+import Test from 'src/components/Test'
 const chainjsUrl = 'https://raw.githubusercontent.com/starwalker00/chain-rpc-list/main/data/rpcList.json';
 
 function List({ rpcs }) {
@@ -139,6 +140,7 @@ function List({ rpcs }) {
             useGlobalFilter, useFilters, useSortBy, useFlexLayout, useExpanded);
     return (
         <Container maxW='container.xl' centerContent>
+            <Test />
             <Box>
                 <GlobalFilter
                     preGlobalFilteredRows={preGlobalFilteredRows}
